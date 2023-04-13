@@ -27,22 +27,26 @@ subprojects {
 
     Map<String, Map<String, String>> platformSettings = [
             "fabric": [
-                    "curse-id": "1",
-                    "modrinth-id": "1"
+                    "curse-id": "849817",
+                    "modrinth-id": "oZiSDGCi"
             ],
             "quilt": [
-                    "curse-id": "1",
-                    "modrinth-id": "1"
+                    "curse-id": "849817",
+                    "modrinth-id": "oZiSDGCi"
             ],
             "forge": [
-                    "curse-id": "1",
-                    "modrinth-id": "1"
+                    "curse-id": "849817",
+                    "modrinth-id": "oZiSDGCi"
             ]
     ]
 
     Map<String, Map<String, Boolean>> platformDependencies = [
-            "fabric": [],
-            "quilt": [],
+            "fabric": [
+                "fabric-api": true
+            ],
+            "quilt": [
+                "qsl": true
+            ],
             "forge": []
     ]
 
@@ -60,7 +64,6 @@ subprojects {
                 token = env.MODRINTH
                 versionName = "FullStack Watchdog"
                 versionNumber = "${project.version}"
-                projectId = ""
                 changelog = changeLogText
                 projectId = uploadSettings["modrinth-id"]
 
