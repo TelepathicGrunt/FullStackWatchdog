@@ -62,34 +62,22 @@ subprojects {
         if (env.MODRINTH) {
             modrinth {
                 token = env.MODRINTH
+                versionName = "FullStack Watchdog (1.17.1 to 1.19.4 - MC ${name.capitalize()})"
                 versionNumber = "${project.version}"
                 changelog = changeLogText
                 projectId = uploadSettings["modrinth-id"]
 
-                if (name.capitalize() == "FORGE") {
-                    versionName = "FullStack Watchdog (1.18.2 to 1.19.4 - MC ${name.capitalize()})"
-                    gameVersions = [
-                            "1.18.2",
-                            "1.19",
-                            "1.19.1",
-                            "1.19.2",
-                            "1.19.3",
-                            "1.19.4"
-                    ]
-                }
-                else {
-                    versionName = "FullStack Watchdog (1.18 to 1.19.4 - MC ${name.capitalize()})"
-                    gameVersions = [
-                            "1.18",
-                            "1.18.1",
-                            "1.18.2",
-                            "1.19",
-                            "1.19.1",
-                            "1.19.2",
-                            "1.19.3",
-                            "1.19.4"
-                    ]
-                }
+                gameVersions = [
+                        "1.17.1",
+                        "1.18",
+                        "1.18.1",
+                        "1.18.2",
+                        "1.19",
+                        "1.19.1",
+                        "1.19.2",
+                        "1.19.3",
+                        "1.19.4"
+                ]
                 loaders = [name]
                 versionType = "RELEASE"
 
@@ -118,10 +106,10 @@ subprojects {
                     changelog = changeLogText
                     releaseType = "release"
 
-                    if (name.capitalize() != "FORGE") {
-                        addGameVersion("1.18")
-                        addGameVersion("1.18.1")
-                    }
+                    addGameVersion("1.17.1")
+                    addGameVersion("1.18")
+                    addGameVersion("1.18")
+                    addGameVersion("1.18.1")
                     addGameVersion("1.18.2")
                     addGameVersion("1.19")
                     addGameVersion("1.19.1")
@@ -131,12 +119,7 @@ subprojects {
                     addGameVersion(name.capitalize())
 
                     mainArtifact(tasks.remapJar) {
-                        if (name.capitalize() == "FORGE") {
-                            displayName = "FullStack Watchdog v${rootProject.mod_version} (1.18.2 to 1.19.4 - MC ${name.capitalize()})"
-                        }
-                        else {
-                            displayName = "FullStack Watchdog v${rootProject.mod_version} (1.18 to 1.19.4 - MC ${name.capitalize()})"
-                        }
+                        displayName = "FullStack Watchdog v${rootProject.mod_version} (1.17.1 to 1.19.4 - MC ${name.capitalize()})"
                     }
 
                     if (uploadDependencies.size() > 0) {
@@ -173,7 +156,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release = 16
     }
 
     java {
