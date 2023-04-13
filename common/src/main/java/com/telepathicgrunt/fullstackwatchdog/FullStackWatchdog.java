@@ -3,6 +3,7 @@ package com.telepathicgrunt.fullstackwatchdog;
 import java.lang.management.LockInfo;
 import java.lang.management.MonitorInfo;
 import java.lang.management.ThreadInfo;
+import java.lang.reflect.Field;
 
 
 public class FullStackWatchdog {
@@ -12,8 +13,6 @@ public class FullStackWatchdog {
 
     public static String fullThreadInfoToString(ThreadInfo threadInfo) {
         StringBuilder sb = new StringBuilder("\"" + threadInfo.getThreadName() + "\"" +
-                (threadInfo.isDaemon() ? " daemon" : "") +
-                " prio=" + threadInfo.getPriority() +
                 " Id=" + threadInfo.getThreadId() + " " +
                 threadInfo.getThreadState());
 
@@ -44,16 +43,16 @@ public class FullStackWatchdog {
             if (i == 0 && threadInfo.getLockInfo() != null) {
                 Thread.State ts = threadInfo.getThreadState();
                 switch (ts) {
-                    case BLOCKED -> {
+                    case BLOCKED:
                         sb.append("\t-  blocked on ").append(threadInfo.getLockInfo());
                         sb.append('\n');
-                    }
-                    case WAITING, TIMED_WAITING -> {
+                        break;
+                    case WAITING:
+                    case TIMED_WAITING:
                         sb.append("\t-  waiting on ").append(threadInfo.getLockInfo());
                         sb.append('\n');
-                    }
-                    default -> {
-                    }
+                        break;
+                    default:
                 }
             }
 

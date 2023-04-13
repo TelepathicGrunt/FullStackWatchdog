@@ -14,7 +14,6 @@ loom {
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 
         mixinConfig "fullstackwatchdog-common.mixins.json"
-        mixinConfig "fullstackwatchdog-forge.mixins.json"
 
         runs {
             all {

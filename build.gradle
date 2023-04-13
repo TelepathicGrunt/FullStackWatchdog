@@ -30,10 +30,6 @@ subprojects {
                     "curse-id": "849817",
                     "modrinth-id": "oZiSDGCi"
             ],
-            "quilt": [
-                    "curse-id": "849817",
-                    "modrinth-id": "oZiSDGCi"
-            ],
             "forge": [
                     "curse-id": "849817",
                     "modrinth-id": "oZiSDGCi"
@@ -43,9 +39,6 @@ subprojects {
     Map<String, Map<String, Boolean>> platformDependencies = [
             "fabric": [
                 "fabric-api": true
-            ],
-            "quilt": [
-                "qsl": true
             ],
             "forge": []
     ]
@@ -62,21 +55,13 @@ subprojects {
         if (env.MODRINTH) {
             modrinth {
                 token = env.MODRINTH
-                versionName = "FullStack Watchdog (1.17.1 to 1.19.4 - MC ${name.capitalize()})"
+                versionName = "FullStack Watchdog (1.16.5 - MC ${name.capitalize()})"
                 versionNumber = "${project.version}"
                 changelog = changeLogText
                 projectId = uploadSettings["modrinth-id"]
 
                 gameVersions = [
-                        "1.17.1",
-                        "1.18",
-                        "1.18.1",
-                        "1.18.2",
-                        "1.19",
-                        "1.19.1",
-                        "1.19.2",
-                        "1.19.3",
-                        "1.19.4"
+                        "1.16.5"
                 ]
                 loaders = [name]
                 versionType = "RELEASE"
@@ -106,20 +91,11 @@ subprojects {
                     changelog = changeLogText
                     releaseType = "release"
 
-                    addGameVersion("1.17.1")
-                    addGameVersion("1.18")
-                    addGameVersion("1.18")
-                    addGameVersion("1.18.1")
-                    addGameVersion("1.18.2")
-                    addGameVersion("1.19")
-                    addGameVersion("1.19.1")
-                    addGameVersion("1.19.2")
-                    addGameVersion("1.19.3")
-                    addGameVersion("1.19.4")
+                    addGameVersion("1.16.5")
                     addGameVersion(name.capitalize())
 
                     mainArtifact(tasks.remapJar) {
-                        displayName = "FullStack Watchdog v${rootProject.mod_version} (1.17.1 to 1.19.4 - MC ${name.capitalize()})"
+                        displayName = "FullStack Watchdog v${rootProject.mod_version} (1.16.5 - MC ${name.capitalize()})"
                     }
 
                     if (uploadDependencies.size() > 0) {
@@ -150,13 +126,12 @@ allprojects {
     group = rootProject.maven_group
 
     repositories {
-        maven { url = 'https://maven.quiltmc.org/repository/release' }
         maven { url "https://maven.architectury.dev/" }
     }
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 16
+        options.release = 8
     }
 
     java {
@@ -165,5 +140,5 @@ allprojects {
 }
 
 task buildAndReleaseAll{
-    dependsOn(':forge:buildAndRelease', ':fabric:buildAndRelease', ':quilt:buildAndRelease')
+    dependsOn(':forge:buildAndRelease', ':fabric:buildAndRelease')
 }

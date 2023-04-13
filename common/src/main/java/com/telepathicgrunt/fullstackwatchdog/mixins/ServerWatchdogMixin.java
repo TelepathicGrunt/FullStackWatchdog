@@ -17,7 +17,8 @@ public class ServerWatchdogMixin {
                     ordinal = 0,
                     remap = false))
     private Object fullstackwatchdog_printEntireThreadDump(Object object) {
-        if (object instanceof ThreadInfo threadInfo) {
+        if (object instanceof ThreadInfo) {
+            ThreadInfo threadInfo = (ThreadInfo) object;
             return FullStackWatchdog.fullThreadInfoToString(threadInfo);
         }
         return object;

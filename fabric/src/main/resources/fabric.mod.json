@@ -23,14 +23,12 @@
     ]
   },
   "mixins": [
-    "fullstackwatchdog-fabric.mixins.json",
-    "fullstackwatchdog-fabric-base.mixins.json",
     "fullstackwatchdog-common.mixins.json"
   ],
 
   "depends": {
     "fabricloader": "*",
-    "minecraft": ">=1.17",
+    "minecraft": "=1.16.5",
     "fabric": "*"
   }
 }
