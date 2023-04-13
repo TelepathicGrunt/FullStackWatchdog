@@ -18,7 +18,7 @@ Makes watchdog print the entire stacktrace of every thread because truncating st
 [[dependencies.fullstackwatchdog]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.2]"
+    versionRange="[1.19.2,)"
 
 [[dependencies.fullstackwatchdog]]
     modId="forge"
