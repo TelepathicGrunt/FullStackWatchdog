@@ -15,7 +15,8 @@ public class ServerWatchdogMixin {
             at = @At(value = "INVOKE",
                     target = "Ljava/lang/StringBuilder;append(Ljava/lang/Object;)Ljava/lang/StringBuilder;",
                     ordinal = 0,
-                    remap = false))
+                    remap = false),
+            remap = false)
     private Object fullstackwatchdog_printEntireThreadDump(Object object) {
         if (object instanceof ThreadInfo threadInfo) {
             return FullStackWatchdog.fullThreadInfoToString(threadInfo);
