@@ -1,0 +1,1 @@
+Makes watchdog print the entire stacktrace of every thread because truncating stacktraces is stupid.

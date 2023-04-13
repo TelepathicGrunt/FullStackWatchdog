@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.telepathicgrunt.fullstackwatchdog.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ServerWatchdogMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

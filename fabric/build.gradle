@@ -1,0 +1,127 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+architectury {
+    platformSetupLoomIde()
+    fabric()
+}
+
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+}
+
+configurations {
+    common
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+}
+
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modApi("net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}")
+
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    common(project(path: ":fabric-base", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":fabric-base", configuration: "transformProductionFabric")) { transitive false }
+
+    include(implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-fabric:${rootProject.mixin_extras}")))
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowCommon]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    injectAccessWidener = true
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier null
+}
+
+jar {
+    classifier "dev"
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+def ENV = System.getenv()
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact remapJar
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
+
+            artifactId = "$rootProject.name"
+
+            pom {
+                name = 'FullStackWatchdog'
+                description = 'Makes watchdog print the entire stacktrace of every thread because truncating stacktraces is stupid'
+                url = 'https://github.com/TelepathicGrunt/FullStackWatchdog'
+
+                scm {
+                    connection = 'git:https://github.com/TelepathicGrunt/FullStackWatchdog.git'
+                    developerConnection = 'git:https://github.com/TelepathicGrunt/FullStackWatchdog.git'
+                    url = 'https://github.com/TelepathicGrunt/FullStackWatchdog'
+                }
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://github.com/TelepathicGrunt/FullStackWatchdog/blob/master/LICENSE'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'telepathic_grunt'
+                        name = 'TelepathicGrunt'
+                        email = 'asarnesespam@gmail.com'
+                    }
+                }
+            }
+
+        }
+    }
+
+    repositories {
+        maven {
+            url = uri("https://nexus.resourcefulbees.com/repository/telepathicgrunt/")
+            credentials {
+                username ENV.MAVEN_USER
+                password ENV.MAVEN_PASS
+            }
+        }
+    }
+}
+
+task buildAndRelease{}
+tasks.publish.mustRunAfter tasks.build
+tasks.curseforge.mustRunAfter tasks.publish
+tasks.modrinth.mustRunAfter tasks.publish
+tasks.buildAndRelease.dependsOn(tasks.build, tasks.publish, tasks.curseforge, tasks.modrinth)

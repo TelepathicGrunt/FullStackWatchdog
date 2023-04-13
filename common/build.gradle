@@ -1,0 +1,68 @@
+dependencies {
+    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
+    // Do NOT use other classes from fabric loader
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+
+    implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-fabric:${rootProject.mixin_extras}"))
+}
+
+architectury {
+    common("fabric", "forge", "quilt")
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/fullstackwatchdog.accesswidener")
+}
+
+def ENV = System.getenv()
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact remapJar
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
+
+            artifactId = "$rootProject.name"
+
+            pom {
+                name = 'FullStackWatchdog'
+                description = 'Makes watchdog print the entire stacktrace of every thread because truncating stacktraces is stupid'
+                url = 'https://github.com/TelepathicGrunt/FullStackWatchdog'
+
+                scm {
+                    connection = 'git:https://github.com/TelepathicGrunt/FullStackWatchdog.git'
+                    developerConnection = 'git:https://github.com/TelepathicGrunt/FullStackWatchdog.git'
+                    url = 'https://github.com/TelepathicGrunt/FullStackWatchdog'
+                }
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://github.com/TelepathicGrunt/FullStackWatchdog/blob/master/LICENSE'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'telepathic_grunt'
+                        name = 'TelepathicGrunt'
+                        email = 'asarnesespam@gmail.com'
+                    }
+                }
+            }
+
+        }
+    }
+
+    repositories {
+        maven {
+            url = uri("https://nexus.resourcefulbees.com/repository/telepathicgrunt/")
+            credentials {
+                username ENV.MAVEN_USER
+                password ENV.MAVEN_PASS
+            }
+        }
+    }
+}
