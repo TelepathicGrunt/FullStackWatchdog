@@ -43,8 +43,6 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionQuilt")) { transitive false }
     common(project(path: ":fabric-base", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":fabric-base", configuration: "transformProductionQuilt")) { transitive false }
-
-    include(implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-fabric:${rootProject.mixin_extras}")))
 }
 
 processResources {

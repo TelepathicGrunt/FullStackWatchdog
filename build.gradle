@@ -169,13 +169,6 @@ allprojects {
     repositories {
         maven { url = 'https://maven.quiltmc.org/repository/release' }
         maven { url "https://maven.architectury.dev/" }
-        maven {
-            url = 'https://jitpack.io'
-            content {
-                includeGroup 'com.github.LlamaLad7'
-                includeGroup 'com.github.llamalad7.mixinextras'
-            }
-        }
     }
 
     tasks.withType(JavaCompile) {
