@@ -30,10 +30,6 @@ subprojects {
                     "curse-id": "849817",
                     "modrinth-id": "oZiSDGCi"
             ],
-            "quilt": [
-                    "curse-id": "849817",
-                    "modrinth-id": "oZiSDGCi"
-            ],
             "forge": [
                     "curse-id": "849817",
                     "modrinth-id": "oZiSDGCi"
@@ -43,9 +39,6 @@ subprojects {
     Map<String, Map<String, Boolean>> platformDependencies = [
             "fabric": [
                 "fabric-api": true
-            ],
-            "quilt": [
-                "qsl": true
             ],
             "forge": []
     ]
@@ -66,30 +59,17 @@ subprojects {
                 versionNumber = "${project.version}"
                 changelog = changeLogText
                 projectId = uploadSettings["modrinth-id"]
-
-                if (name.capitalize() != "QUILT") {
-                    gameVersions = [
-                            "1.17.1",
-                            "1.18",
-                            "1.18.1",
-                            "1.18.2",
-                            "1.19",
-                            "1.19.1",
-                            "1.19.2",
-                            "1.19.3",
-                            "1.19.4"
-                    ]
-                }
-                else {
-                    gameVersions = [
-                            "1.18.2",
-                            "1.19",
-                            "1.19.1",
-                            "1.19.2",
-                            "1.19.3",
-                            "1.19.4"
-                    ]
-                }
+                gameVersions = [
+                        "1.17.1",
+                        "1.18",
+                        "1.18.1",
+                        "1.18.2",
+                        "1.19",
+                        "1.19.1",
+                        "1.19.2",
+                        "1.19.3",
+                        "1.19.4"
+                ]
                 
                 loaders = [name]
                 versionType = "RELEASE"
@@ -119,11 +99,9 @@ subprojects {
                     changelog = changeLogText
                     releaseType = "release"
 
-                    if (name.capitalize() != "QUILT") {
-                        addGameVersion("1.17.1")
-                        addGameVersion("1.18")
-                        addGameVersion("1.18.1")
-                    }
+                    addGameVersion("1.17.1")
+                    addGameVersion("1.18")
+                    addGameVersion("1.18.1")
                     addGameVersion("1.18.2")
                     addGameVersion("1.19")
                     addGameVersion("1.19.1")
@@ -133,12 +111,7 @@ subprojects {
                     addGameVersion(name.capitalize())
 
                     mainArtifact(tasks.remapJar) {
-                        if (name.capitalize() != "QUILT") {
-                            displayName = "FullStack Watchdog v${rootProject.mod_version} (1.17.1 to 1.19.4 - MC ${name.capitalize()})"
-                        }
-                        else {
-                            displayName = "FullStack Watchdog v${rootProject.mod_version} (1.18.2 to 1.19.4 - MC ${name.capitalize()})"
-                        }
+                        displayName = "FullStack Watchdog v${rootProject.mod_version} (1.17.1 to 1.19.4 - MC ${name.capitalize()})"
                     }
 
                     if (uploadDependencies.size() > 0) {
@@ -169,7 +142,6 @@ allprojects {
     group = rootProject.maven_group
 
     repositories {
-        maven { url = 'https://maven.quiltmc.org/repository/release' }
         maven { url "https://maven.architectury.dev/" }
     }
 
@@ -184,5 +156,5 @@ allprojects {
 }
 
 task buildAndReleaseAll{
-    dependsOn(':forge:buildAndRelease', ':fabric:buildAndRelease', ':quilt:buildAndRelease')
+    dependsOn(':forge:buildAndRelease', ':fabric:buildAndRelease')
 }
