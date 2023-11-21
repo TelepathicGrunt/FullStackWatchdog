@@ -30,7 +30,7 @@ subprojects {
                     "curse-id": "849817",
                     "modrinth-id": "oZiSDGCi"
             ],
-            "forge": [
+            "neoforge": [
                     "curse-id": "849817",
                     "modrinth-id": "oZiSDGCi"
             ]
@@ -40,7 +40,7 @@ subprojects {
             "fabric": [
                 "fabric-api": true
             ],
-            "forge": []
+            "neoforge": []
     ]
 
     var env = System.getenv()
@@ -55,20 +55,12 @@ subprojects {
         if (env.MODRINTH) {
             modrinth {
                 token = env.MODRINTH
-                versionName = "FullStack Watchdog (1.17.1 to 1.19.4 - MC ${name.capitalize()})"
+                versionName = "FullStack Watchdog (${rootProject.mod_version} - MC ${name.capitalize()})"
                 versionNumber = "${project.version}"
                 changelog = changeLogText
                 projectId = uploadSettings["modrinth-id"]
                 gameVersions = [
-                        "1.17.1",
-                        "1.18",
-                        "1.18.1",
-                        "1.18.2",
-                        "1.19",
-                        "1.19.1",
-                        "1.19.2",
-                        "1.19.3",
-                        "1.19.4"
+                        "${rootProject.mod_version}"
                 ]
                 
                 loaders = [name]
@@ -99,19 +91,11 @@ subprojects {
                     changelog = changeLogText
                     releaseType = "release"
 
-                    addGameVersion("1.17.1")
-                    addGameVersion("1.18")
-                    addGameVersion("1.18.1")
-                    addGameVersion("1.18.2")
-                    addGameVersion("1.19")
-                    addGameVersion("1.19.1")
-                    addGameVersion("1.19.2")
-                    addGameVersion("1.19.3")
-                    addGameVersion("1.19.4")
+                    addGameVersion("${rootProject.mod_version}")
                     addGameVersion(name.capitalize())
 
                     mainArtifact(tasks.remapJar) {
-                        displayName = "FullStack Watchdog v${rootProject.mod_version} (1.17.1 to 1.19.4 - MC ${name.capitalize()})"
+                        displayName = "FullStack Watchdog v${rootProject.mod_version} (${rootProject.mod_version} - MC ${name.capitalize()})"
                     }
 
                     if (uploadDependencies.size() > 0) {
@@ -143,11 +127,12 @@ allprojects {
 
     repositories {
         maven { url "https://maven.architectury.dev/" }
+        maven { url "https://maven.neoforged.net/releases/" }
     }
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 16
+        options.release = 17
     }
 
     java {
@@ -156,5 +141,5 @@ allprojects {
 }
 
 task buildAndReleaseAll{
-    dependsOn(':forge:buildAndRelease', ':fabric:buildAndRelease')
+    dependsOn(':neoforge:buildAndRelease', ':fabric:buildAndRelease')
 }
