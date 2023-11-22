@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[37,)" #mandatory
+loaderVersion="[1,)" #mandatory
 issueTrackerURL="https://github.com/TelepathicGrunt/FullStackWatchdog/issues" #optional
 license="https://github.com/TelepathicGrunt/FullStackWatchdog/blob/latest-released/LICENSE"
 
@@ -15,7 +15,10 @@ description='''
 Makes watchdog print the entire stacktrace of every thread because truncating stacktraces is stupid.
 '''
 
+[[mixins]]
+    config = "fullstackwatchdog-common.mixins.json"
+
 [[dependencies.fullstackwatchdog]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.17,)"
+    versionRange="[1.20.1,)"

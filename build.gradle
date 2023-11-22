@@ -92,7 +92,13 @@ subprojects {
                     releaseType = "release"
 
                     addGameVersion("${rootProject.mod_version}")
-                    addGameVersion(name.capitalize())
+
+                    if (name == "neoforge") {
+                        addGameVersion("NeoForge")
+                    }
+                    else {
+                        addGameVersion(name.capitalize())
+                    }
 
                     mainArtifact(tasks.remapJar) {
                         displayName = "FullStack Watchdog v${rootProject.mod_version} (${rootProject.mod_version} - MC ${name.capitalize()})"
