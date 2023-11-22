@@ -60,7 +60,7 @@ subprojects {
                 changelog = changeLogText
                 projectId = uploadSettings["modrinth-id"]
                 gameVersions = [
-                        "${rootProject.mod_version}"
+                        "${rootProject.minecraft_version}"
                 ]
                 
                 loaders = [name]
@@ -91,7 +91,7 @@ subprojects {
                     changelog = changeLogText
                     releaseType = "release"
 
-                    addGameVersion("${rootProject.mod_version}")
+                    addGameVersion("${rootProject.minecraft_version}")
 
                     if (name == "neoforge") {
                         addGameVersion("NeoForge")
